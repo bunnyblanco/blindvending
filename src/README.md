@@ -1,7 +1,5 @@
 # blindvending
-Data, some documents, and code related to the BEPB Class I took in 2015
-
-The zipped data files are password protected.
+Code related to the BEPB Class I took in 2015
 
 The code repository is mainly Python code related to some automation of
 the process of filling out documents.  The original intent was to create
