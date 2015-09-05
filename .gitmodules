@@ -1,0 +1,3 @@
+[submodule "vendrest"]
+	path = vendrest
+	url = ./vendrest/
