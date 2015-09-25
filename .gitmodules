@@ -4,3 +4,6 @@
 [submodule "vendexcel"]
 	path = vendexcel
 	url = ./vendexcel/
+[submodule "course"]
+	path = course
+	url = ./course/
