@@ -7,3 +7,6 @@
 [submodule "course"]
 	path = course
 	url = ./course/
+[submodule "vendmech"]
+	path = vendmech
+	url = ./vendmech

@@ -1,0 +1,87 @@
+\documentclass[12pt]{article}
+\begin{document}
+
+\title{Vend Excel API Specification}
+\author{Bruce C. Paul}
+\maketitle
+
+\section{Design Considerations}
+
+We developed this API as an interface to Excel files for data stored
+in SQLITE Databases.  The databases should themselves be accessed
+through an REST API based on Flask.  This allows us to seperate the
+storage of the data from the presentation of the data, along with the
+possiblity of working with these data sets through a web app.
+
+The main purpose of this API is to provide some syntactic sugar around
+the steps used to fill out the forms required by the Illinois BEPB.
+We use OpenPyxl to create, read, and write the Excel files.  One
+creates a workbook with OpenPyxl and all objects used to interact with
+Excel workbooks, worksheets, cells, ranges, etc are OpenPyxl objects.
+The names of the API calls should be familiar to anyone who has gotten
+BEPB Certification.  For example, to fill in the turn-in amount one 
+would call: \\
+
+\[ 
+set\_day\_turnin(sheet, date, amount) .
+\] \\
+
+\noindent Here sheet is an OpenPyxl worksheet, date is a Python
+String, and amount is a Python Double.  Currently, the format of the
+API only allows one format for the DATE field, but it will eventually
+reflect the formats allowed by Python, since OpenPyxl converts between
+Python and Excel types automatically.  The ``internal'' formats used
+by VendExcel include:
+
+\begin{itemize}
+\item{Dates are stored as Strings with the format YYYY-MM-DD}
+\end{itemize}
+
+\section{Getter and Setter Calls}
+
+\subsection{Formats and Units}
+
+These functions set the displayed format in Excel worksheets.  This
+formatting should comply with the BEPB standard formats.  When no
+format is specified, these calls will use the most readable
+formatting, for both screen readers and the sighted.
+
+\[ set\_amount(sheet, coord, amount) \]
+\noindent Set the amount in the cell at coord in worksheet sheet.
+
+\[ set\_total\_amount(sheet, coord, amount) \]
+\noindent Sam as the $set_amount$ call, except that it conforms to the
+format required for a summary page --- i.e. the first page of the
+monthly P\&L Statement.
+
+\[ set\_percent(sheet, coord, percent) \]
+\noindent Set the format and value of a cell that represents a
+percentage.  Specifically, use the standard intermediate percentage
+format for the value, as given in the decimal $amount$, in the cell at
+$coord$ in worksheet $sheet$.
+
+\[ set\_total\_percent(sheet, coord, amount) \]
+\noindent Set the value and format to the decimal $amount$ in the cell
+at $coord$ in worksheet
+$sheet$.  The format specified by this function suits summary fields.
+
+\[ set\_date(sheet, coord, date) \]
+\noindent Set the date in the cell at $coord$
+in worksheet $sheet$.
+The input should be a Python Date Object.  The format in Excel
+complies with the BEPB standard or defaults to a readable format when
+no standard is specified.
+
+\[ get\_date(date) \] \\
+\noindent Returns the date, in human readable form, represented by the
+String $date$.
+
+\[ set\_date(year, month, day) . \] \\
+\noindent Returns the date String that represents the four-digit year,
+two-digit month, and two-digit day as YYYY-MM-DD.  This is standard
+output for the Python datetime Package.
+
+\[ set\_date(date) . \] \\
+\noindent Returns the date String that represents the date, where the first four digits represent the year, the second two represent the month and the last two represent the day.  For example, the number 2015-05-09 represents May 9, 2015.
+
+\end{document}
